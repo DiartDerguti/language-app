@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .language-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .language-menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .language-menu:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .language-flag {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 8px;
+        }
+
+        .language-menu span {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .active {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .active span {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .nav-item {
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <p class="nav-item nav-link translate" data-lang-al="Kontakti" data-lang-en="Contact">Kontakti</p>
+
+    <div class="language-container">
+        <button class="language-menu" data-lang="al" onclick="changeLanguage('al')">
+            <svg class="language-flag" viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg">
+                <rect width="36" height="24" fill="#E30A17"/>
+                <path d="M18,4 L18,20 M4,12 L32,12" stroke="black" stroke-width="2"/>
+                <path d="M18,4 L18,20 M4,12 L32,12" stroke="#000" stroke-width="1"/>
+            </svg>
+            <span>Shqip</span>
+        </button>
+        <button class="language-menu" data-lang="en" onclick="changeLanguage('en')">
+            <svg class="language-flag" viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg">
+                <rect width="36" height="24" fill="#012169"/>
+                <path d="M0,0 L36,24 M36,0 L0,24" stroke="#fff" stroke-width="2.4"/>
+                <path d="M18,0 L18,24 M0,12 L36,12" stroke="#fff" stroke-width="4"/>
+                <path d="M18,0 L18,24 M0,12 L36,12" stroke="#C8102E" stroke-width="2.4"/>
+            </svg>
+            <span>English</span>
+        </button>
+    </div>
+
+    <script>
+        function changeLanguage(lang) {
+            document.querySelectorAll('.translate').forEach(el => {
+                const translation = el.dataset[`lang${lang.charAt(0).toUpperCase() + lang.slice(1)}`];
+                if (translation) el.textContent = translation;
+            });
+
+            localStorage.setItem('language', lang);
+            
+            document.querySelectorAll('.language-menu').forEach(btn => {
+                const isActive = btn.dataset.lang === lang;
+                btn.classList.toggle('active', isActive);
+            });
+        }
+
+        // Al as default language
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLanguage = localStorage.getItem('language') || 'al';
+            changeLanguage(savedLanguage);
+        });
+    </script>
+</body>
+</html>
